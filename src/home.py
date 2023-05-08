@@ -18,48 +18,41 @@ def load_data():
     toptier_codes_df = pd.DataFrame(toptier_codes_response.json().get('results'))
     return toptier_codes_df
 
-st.dataframe(load_data().head(10).sort_values(by='budget_authority_amount', ascending=False))
 
-st.bar_chart(load_data(), y='budget_authority_amount', x='agency_name')
-
+st.subheader("Top 5 Highest Budgets")
 col1, col2 = st.columns([1,1])
-
 total_budget = load_data()['budget_authority_amount'].sum()
 
-first_budget = load_data().budget_authority_amount.max()
-first_budget_name = load_data().loc[load_data()['budget_authority_amount'] == first_budget, 'agency_name'].item()
-first_percent = first_budget / total_budget
+def top_five(i):
+    first_budget = load_data().budget_authority_amount[i:].max()
+    first_budget_name = load_data().loc[load_data()['budget_authority_amount'] == first_budget, 'agency_name'].item()
+    first_percent = first_budget / total_budget
 
-col1.metric(f"Highest - {first_budget_name}", value=f"${first_budget:,}")
-col2.metric(f"Percentage - {first_budget_name}", value=f"{first_percent:,.2%}")
+    col1.metric(f"Number: {i+1} - {first_budget_name}", value=f"${first_budget:,}")
+    col2.metric(f"Percentage", value=f"{first_percent:,.2%}")
 
+for i in range(10):
+    top_five(i)
 
+df_visual = load_data()[['abbreviation', 'agency_name', 'toptier_code', 'budget_authority_amount']]
+df_visual = df_visual.head(10).sort_values(by='budget_authority_amount', ascending=False)
+df_visual = df_visual.rename(columns={'abbreviation': 'Abbrev.',
+                          'agency_name': 'Agency Name',
+                          'toptier_code': 'Top Tier Code',
+                          'budget_authority_amount': 'Budget Amount',
+                          }).set_index('Top Tier Code')
 
-sec_budget = load_data().budget_authority_amount[1:].max()
-sec_budget_name = load_data().loc[load_data()['budget_authority_amount'] == sec_budget, 'agency_name'].item()
-sec_percent = sec_budget / total_budget
+st.dataframe(df_visual)
 
-
-col1.metric(f"Second - {sec_budget_name}", value=f"${sec_budget:,}")
-col2.metric(f"Percentage - {sec_budget_name}", value=f"{sec_percent:,.2%}")
-
-
-third_budget = load_data().budget_authority_amount[2:].max()
-third_budget_name = load_data().loc[load_data()['budget_authority_amount'] == third_budget, 'agency_name'].item()
-third_percent = third_budget / total_budget
-
-
-col1.metric(f"Third - {third_budget_name}", value=f"${third_budget:,}")
-col2.metric(f"Percentage - {third_budget_name}", value=f"{third_percent:,.2%}")
-
-four_budget = load_data().budget_authority_amount[3:].max()
-four_budget_name = load_data().loc[load_data()['budget_authority_amount'] == four_budget, 'agency_name'].item()
-four_percent = four_budget / total_budget
+st.bar_chart(load_data().head(10), y='budget_authority_amount', x='agency_name')
 
 
-col1.metric(f"Forth - {four_budget_name}", value=f"${four_budget:,}")
-col2.metric(f"Percentage - {four_budget_name}", value=f"{four_percent:,.2%}")
 
+
+
+
+
+    
 
 
 

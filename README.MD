@@ -1,7 +1,7 @@
-### Activate WSL
+# Activate WSL
 wsl -d Ubuntu
 
-### Activate Venv
+# Activate Venv
 . ~/Documents/coding/venvs/us-data-venv/bin/activate
 
 # us-data

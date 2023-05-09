@@ -19,7 +19,7 @@ def load_data():
     return toptier_codes_df
 
 
-st.subheader("Top 5 Highest Budgets")
+st.subheader("Top 10 Highest Budgets")
 col1, col2 = st.columns([1,1])
 total_budget = load_data()['budget_authority_amount'].sum()
 

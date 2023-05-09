@@ -56,12 +56,6 @@ def function_page(code, year):
         metric_list(i)
 
 
-# list codes
-# loop through saving df for each year per function
-# in each page function - 
-#   line chart to show difference
-#   metrics showing ytoy difference
-
 def budget_function_years(code):
     function_data = pd.DataFrame([['name', 'obligated_amounts']])
     budget_year_dict= {}
@@ -71,10 +65,4 @@ def budget_function_years(code):
         budget_year_dict[year] = budget_year
         # function_data =  pd.concat([df, function_data])
     return budget_year_dict
-
-# def function_budget_total_by_year(code, year):
-#     function_all_years_df = budget_function_years(code)
-
-#     budget_2018 = function_all_years_df[function_all_years_df['Year'] == 2018.0]['Budget Amount'].sum()
-#     budget_2018 = function_all_years_df[function_all_years_df['Year'] == 2018.0]['Budget Amount'].sum()
 
